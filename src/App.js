@@ -8,7 +8,7 @@ import {
   usePlayingVideoDispatch,
 } from './store/playingVideoContext';
 import YOUTUBE_VIDEOS_ID from './data/YOUTUBE_VIDEOS_ID';
-import {YOUTUBE_DATA_API_V3} from '@env';
+import {YOUTUBE_DATA_API_V3_KEY} from '@env';
 
 export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -16,14 +16,14 @@ export default function App() {
   const [filteredVideosData, setFilteredVideosData] = useState([]);
 
   const renderVideo = (data) => (
-    <VideoPlayer videoData={data} youTubeApiKey={YOUTUBE_DATA_API_V3} />
+    <VideoPlayer videoData={data} youTubeApiKey={YOUTUBE_DATA_API_V3_KEY} />
   );
 
   useEffect(() => {
     async function getVideosData() {
       const data = await getYouTubeVideosDataById(
         YOUTUBE_VIDEOS_ID.toString(),
-        YOUTUBE_DATA_API_V3,
+        YOUTUBE_DATA_API_V3_KEY,
       );
       setVideosData(data);
     }
