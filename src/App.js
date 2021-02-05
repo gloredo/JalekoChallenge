@@ -39,17 +39,21 @@ export default function App() {
     setFilteredVideosData(filteredVideos);
   }, [videosData, searchQuery]);
 
-  //Prevents application crash due to known issue with react-native-youtube UNAUTHORIZED_OVERLAY
+  //Prevents application crash due to known issue with react-native-youtube: UNAUTHORIZED_OVERLAY
   //See more: https://github.com/davidohayon669/react-native-youtube#known-issues
   const [viewableVideos, setViewableVideos] = useState([]);
   const playingVideoState = usePlayingVideoState();
   const playingVideoDispatch = usePlayingVideoDispatch();
 
-  const viewabilityConfigRef = useRef({itemVisiblePercentThreshold: 55});
-  const onViewableItemsRef = useRef((e) => setViewableVideos(e.viewableItems));
+  const viewabilityConfigRef = useRef({itemVisiblePercentThreshold: 95});
+  const onViewableItemsRef = useRef(({viewableItems}) =>
+    setViewableVideos(viewableItems),
+  );
 
   useEffect(() => {
-    if (viewableVideos.length === 0) return;
+    if (viewableVideos.length === 0) {
+      return;
+    }
 
     const isPlayingVideoViewable = viewableVideos.filter(
       (video) => video.item.id === playingVideoState.videoId,
