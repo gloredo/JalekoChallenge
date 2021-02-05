@@ -81,6 +81,11 @@ Instale os gerenciadores de pacotes
 
 ## Como usar
 
+1. Inicie o aplicativo
+   ```sh
+   npx react-native run-android
+   ```
+   
 O aplicativo é muito simples, apenas clique em um vídeo para começar a assistir. Se quiser filtrar por algum vídeo em específico, basta digitar o termo desejado no campo "Qual vídeo você quer ver?" localizado na parte superior da tela.
 
 ### Limitações
