@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default async function getYouTubeVideosDataById(videoId, YoutubeKey) {
+export default async function getYouTubeVideosDataById(videoId, youTubeKey) {
   try {
     const response = await axios.get(
       'https://www.googleapis.com/youtube/v3/videos',
@@ -8,7 +8,7 @@ export default async function getYouTubeVideosDataById(videoId, YoutubeKey) {
         params: {
           part: 'snippet',
           id: videoId,
-          key: YoutubeKey,
+          key: youTubeKey,
         },
       },
     );
