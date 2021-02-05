@@ -1,7 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {SafeAreaView, StyleSheet, StatusBar, FlatList} from 'react-native';
-import {Searchbar} from 'react-native-paper';
+import {StyleSheet, SafeAreaView, StatusBar, FlatList} from 'react-native';
+import {Searchbar, Appbar} from 'react-native-paper';
 import VideoPlayer from './components/VideoPlayer';
+import EmptySearch from './components/EmptySearch';
 import getYouTubeVideosDataById from './services/getYouTubeVideosDataById';
 import {
   usePlayingVideoState,
@@ -67,22 +68,31 @@ export default function App() {
   return (
     <>
       <StatusBar barStyle="default" />
-      <SafeAreaView>
-        <Searchbar
-          placeholder="Qual vídeo você quer ver?"
-          onChangeText={(query) => setSearchQuery(query)}
-          value={searchQuery}
+      <SafeAreaView style={styles.container}>
+        <Appbar style={styles.appbar}>
+          <Searchbar
+            placeholder="Qual vídeo você quer ver?"
+            onChangeText={(query) => setSearchQuery(query)}
+            value={searchQuery}
+          />
+        </Appbar>
+        <FlatList
+          data={filteredVideosData}
+          renderItem={renderVideo}
+          keyExtractor={(video) => video.id}
+          ListEmptyComponent={EmptySearch}
+          onViewableItemsChanged={onViewableItemsRef.current}
+          viewabilityConfig={viewabilityConfigRef.current}
         />
       </SafeAreaView>
-      <FlatList
-        data={filteredVideosData}
-        renderItem={renderVideo}
-        keyExtractor={(video) => video.id}
-        onViewableItemsChanged={onViewableItemsRef.current}
-        viewabilityConfig={viewabilityConfigRef.current}
-      />
     </>
   );
 }
 
-// const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#65d4d3',
+  },
+  appbar: {paddingHorizontal: 8},
+});
