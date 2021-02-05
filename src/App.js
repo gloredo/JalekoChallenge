@@ -41,20 +41,24 @@ export default function App() {
 
   //Prevents application crash due to known issue with react-native-youtube UNAUTHORIZED_OVERLAY
   //See more: https://github.com/davidohayon669/react-native-youtube#known-issues
-  const [viewableVideo, setViewableVideo] = useState({});
-  const state = usePlayingVideoState();
-  const dispatch = usePlayingVideoDispatch();
+  const [viewableVideos, setViewableVideos] = useState([]);
+  const playingVideoState = usePlayingVideoState();
+  const playingVideoDispatch = usePlayingVideoDispatch();
 
-  const viewConfigRef = useRef({itemVisiblePercentThreshold: 60});
-  const onViewRef = useRef((viewableItems) => {
-    setViewableVideo(viewableItems.changed[0]);
-  });
+  const viewabilityConfigRef = useRef({itemVisiblePercentThreshold: 55});
+  const onViewableItemsRef = useRef((e) => setViewableVideos(e.viewableItems));
 
   useEffect(() => {
-    if (viewableVideo.item?.id === state.videoId && !viewableVideo.isViewable) {
-      dispatch({type: 'setVideoId', payload: ''});
+    if (viewableVideos.length === 0) return;
+
+    const isPlayingVideoViewable = viewableVideos.filter(
+      (video) => video.item.id === playingVideoState.videoId,
+    );
+
+    if (isPlayingVideoViewable.length === 0) {
+      playingVideoDispatch({type: 'setVideoId', payload: ''});
     }
-  }, [viewableVideo, dispatch, state.videoId]);
+  }, [viewableVideos, playingVideoDispatch, playingVideoState.videoId]);
 
   return (
     <>
@@ -65,14 +69,14 @@ export default function App() {
           onChangeText={(query) => setSearchQuery(query)}
           value={searchQuery}
         />
-        <FlatList
-          data={filteredVideosData}
-          renderItem={renderVideo}
-          keyExtractor={(video) => video.id}
-          onViewableItemsChanged={onViewRef.current}
-          viewabilityConfig={viewConfigRef.current}
-        />
       </SafeAreaView>
+      <FlatList
+        data={filteredVideosData}
+        renderItem={renderVideo}
+        keyExtractor={(video) => video.id}
+        onViewableItemsChanged={onViewableItemsRef.current}
+        viewabilityConfig={viewabilityConfigRef.current}
+      />
     </>
   );
 }
