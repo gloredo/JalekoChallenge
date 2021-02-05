@@ -51,6 +51,6 @@ export default function VideoPlayer(props) {
 }
 
 const styles = StyleSheet.create({
-  card: {margin: 8, padding: 4},
-  videoPlayer: {alignSelf: 'stretch', height: 250},
+  card: {marginHorizontal: 8, marginVertical: 4},
+  videoPlayer: {alignSelf: 'stretch', height: 204, marginTop: 8},
 });
