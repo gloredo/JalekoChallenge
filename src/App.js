@@ -46,7 +46,7 @@ export default function App() {
   const playingVideoState = usePlayingVideoState();
   const playingVideoDispatch = usePlayingVideoDispatch();
 
-  const viewabilityConfigRef = useRef({itemVisiblePercentThreshold: 95});
+  const viewabilityConfigRef = useRef({itemVisiblePercentThreshold: 75});
   const onViewableItemsRef = useRef(({viewableItems}) =>
     setViewableVideos(viewableItems),
   );
